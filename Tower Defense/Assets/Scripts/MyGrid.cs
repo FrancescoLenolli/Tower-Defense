@@ -23,25 +23,25 @@ public class MyGrid : MonoBehaviour
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
 
-        if (grid == null)
-            return;
+        //if (grid == null)
+        //    return;
 
-        foreach (Node node in grid)
-        {
-            Vector3 nodePosition = new Vector3(node.worldPosition.x, node.worldPosition.y - 0.5f, node.worldPosition.z);
-            Gizmos.color = node.isWalkable ? Color.white : Color.red;
-            Gizmos.DrawCube(nodePosition, Vector3.one * (nodeDiameter));
-        }
+        //foreach (Node node in grid)
+        //{
+        //    Vector3 nodePosition = new Vector3(node.worldPosition.x, node.worldPosition.y - 0.5f, node.worldPosition.z);
+        //    Gizmos.color = node.isWalkable ? Color.white : Color.red;
+        //    Gizmos.DrawCube(nodePosition, Vector3.one * (nodeDiameter));
+        //}
 
-        if (path == null || path.Count == 0)
-            return;
+        //if (path == null || path.Count == 0)
+        //    return;
 
-        for (int i = 0; i < path.Count; ++i)
-        {
-            Vector3 position = new Vector3(path[i].worldPosition.x, path[i].worldPosition.y - 0.5f, path[i].worldPosition.z);
-            Gizmos.color = i == 0 ? Color.black : i == path.Count - 1 ? Color.blue : Color.green;
-            Gizmos.DrawCube(position, Vector3.one * (nodeDiameter));
-        }
+        //for (int i = 0; i < path.Count; ++i)
+        //{
+        //    Vector3 position = new Vector3(path[i].worldPosition.x, path[i].worldPosition.y - 0.5f, path[i].worldPosition.z);
+        //    Gizmos.color = i == 0 ? Color.black : i == path.Count - 1 ? Color.blue : Color.green;
+        //    Gizmos.DrawCube(position, Vector3.one * (nodeDiameter));
+        //}
     }
 
     public void Init()
