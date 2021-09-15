@@ -33,6 +33,8 @@ public class Level : MonoBehaviour
         GenerateRandomPath();
         StartCoroutine(AutoGeneratePath());
 
+        EnemySpawner enemySpawner = FindObjectOfType<EnemySpawner>();
+        enemySpawner.SetPath(path);
         markerGenerator.CreateMarkers(grid.Grid, path, startNode, endNode);
 
         CameraControls cameraControls = FindObjectOfType<CameraControls>();

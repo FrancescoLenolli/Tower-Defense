@@ -7,15 +7,14 @@ public class PathFollower : MonoBehaviour
     private float speed;
     private List<Node> path;
 
-    public void StartMoving(List<Node> path, float speed)
+    public void Move(List<Node> path, float speed)
     {
         this.path = path;
         this.speed = speed;
-        transform.position = path[0].worldPosition;
-        StartCoroutine(Move());
+        StartCoroutine(MoveRoutine());
     }
 
-    private IEnumerator Move()
+    private IEnumerator MoveRoutine()
     {
         if (path != null)
         {
@@ -38,7 +37,7 @@ public class PathFollower : MonoBehaviour
                     yield return null;
                 }
                 currentPathIndex++;
-                transform.position = targetPosition;
+                //transform.position = targetPosition;
                 if(currentPathIndex == path.Count)
                 {
                     Destroy(gameObject);
