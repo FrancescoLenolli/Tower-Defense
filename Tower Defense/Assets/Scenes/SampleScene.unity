@@ -643,8 +643,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 9.88
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -815,7 +815,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 524933195}
-  obstaclePrefab: {fileID: 2712861422041660373, guid: 7038a234d8aef8a42991082ab1c9f272,
+  obstaclePrefab: {fileID: 4208024303435858905, guid: 7038a234d8aef8a42991082ab1c9f272,
+    type: 3}
+  turretPrefab: {fileID: 7797386988454033205, guid: 96827e9bc19dffc4f9dbfd28da27c5fc,
     type: 3}
 --- !u!4 &1847695779
 Transform:

@@ -7,14 +7,16 @@ public class Level : MonoBehaviour
     [SerializeField]
     private MyGrid grid = null;
     [SerializeField]
-    private GameObject obstaclePrefab = null;
+    private PlaceableObject obstaclePrefab = null;
+    [SerializeField]
+    private PlaceableObject turretPrefab = null;
 
     private MouseInput mouseInput = null;
     private MarkerGenerator markerGenerator = null;
     private Pathfinding pathfinding = null;
     private List<Node> path = new List<Node>();
     private bool autogeneratePath = false;
-    private GameObject obstacle = null;
+    private PlaceableObject obstacle = null;
     private Node startNode = null;
     private Node endNode = null;
     private bool markersVisible = true;
@@ -65,8 +67,11 @@ public class Level : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (!obstacle)
-                obstacle = Instantiate(obstaclePrefab, mouseInput.WorldPoint, Quaternion.identity, grid.transform);
+            GetObstacle(obstaclePrefab);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            GetObstacle(turretPrefab);
         }
         if (Input.GetMouseButtonDown(0))
         {
@@ -114,6 +119,12 @@ public class Level : MonoBehaviour
         markerGenerator.ChangeMarker(endNode, MarkerType.End);
     }
 
+    private void GetObstacle(PlaceableObject prefab)
+    {
+        if (!obstacle)
+            obstacle = Instantiate(prefab, mouseInput.WorldPoint, Quaternion.identity, grid.transform);
+    }
+
     private void PlaceObstacle()
     {
         if (!obstacle)
@@ -134,6 +145,7 @@ public class Level : MonoBehaviour
             return;
         }
 
+        obstacle.Place();
         obstacle = null;
         markerGenerator.ChangeMarker(node, MarkerType.Obstacle);
 
