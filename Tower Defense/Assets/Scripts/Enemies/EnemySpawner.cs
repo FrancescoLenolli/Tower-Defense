@@ -9,6 +9,7 @@ public class EnemySpawner : MonoBehaviour
     public float spawnTimer = 1.0f;
 
     private List<Node> path = new List<Node>();
+    private List<Enemy> enemies = new List<Enemy>();
     private float currentTimer;
 
     private void Awake()
@@ -16,26 +17,36 @@ public class EnemySpawner : MonoBehaviour
         currentTimer = spawnTimer;
     }
 
-    private void Update()
-    {
-        if (path == null)
-            return;
-
-        currentTimer -= Time.deltaTime;
-        if(currentTimer <= 0.0f)
-        {
-            currentTimer = spawnTimer;
-            SpawnEnemy();
-        }
-    }
-
     public void SetPath(List<Node> path)
     {
         this.path = path;
+        StartCoroutine(SpawnEnemiesRoutine());
     }
 
     private void SpawnEnemy()
     {
-        Instantiate(prefabEnemy).StartMoving(path);
+        Enemy enemy = Instantiate(prefabEnemy);
+        enemy.Init(path);
+
+        enemies.Add(enemy);
     }
+
+    private IEnumerator SpawnEnemiesRoutine()
+    {
+        while (true)
+        {
+            if (path == null)
+                yield return null;
+
+            currentTimer -= Time.deltaTime;
+            if (currentTimer <= 0.0f)
+            {
+                currentTimer = spawnTimer;
+                SpawnEnemy();
+            }
+
+            yield return null;
+        }
+    }
+
 }

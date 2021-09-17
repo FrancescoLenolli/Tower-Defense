@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,9 @@ public class PathFollower : MonoBehaviour
 {
     private float speed;
     private List<Node> path;
+    private Action onEndTargetReached;
+
+    public Action OnEndTargetReached { get => onEndTargetReached; set => onEndTargetReached = value; }
 
     public void Move(List<Node> path, float speed)
     {
@@ -37,10 +41,9 @@ public class PathFollower : MonoBehaviour
                     yield return null;
                 }
                 currentPathIndex++;
-                //transform.position = targetPosition;
                 if(currentPathIndex == path.Count)
                 {
-                    Destroy(gameObject);
+                    onEndTargetReached?.Invoke();
                 }
                 yield return null;
             }

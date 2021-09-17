@@ -36,7 +36,7 @@ public class Level : MonoBehaviour
         StartCoroutine(AutoGeneratePath());
 
         EnemySpawner enemySpawner = FindObjectOfType<EnemySpawner>();
-        enemySpawner.SetPath(path);
+        //enemySpawner.SetPath(path);
         markerGenerator.CreateMarkers(grid.Grid, path, startNode, endNode);
 
         CameraControls cameraControls = FindObjectOfType<CameraControls>();
@@ -81,7 +81,7 @@ public class Level : MonoBehaviour
         if (obstacle)
         {
             obstacle.transform.localPosition = grid.NodeFromWorldPoint(mouseInput.WorldPoint).worldPosition;
-            obstacle.transform.localPosition = new Vector3(obstacle.transform.localPosition.x, 0.5f, obstacle.transform.localPosition.z);
+            obstacle.transform.localPosition = new Vector3(obstacle.transform.localPosition.x, 0.0f, obstacle.transform.localPosition.z);
         }
     }
 

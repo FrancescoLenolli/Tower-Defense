@@ -29,7 +29,7 @@ public class CameraControls : MonoBehaviour
         float positionZ = Mathf.Clamp(transform.position.z, positionZLimit.x, positionZLimit.y);
         transform.position = new Vector3(positionX, transform.position.y, positionZ);
 
-        mainCamera.fieldOfView = Mathf.Clamp(mainCamera.fieldOfView += zoomSpeed * -zoomInput, zoomLimits.x, zoomLimits.y);
+        mainCamera.orthographicSize = Mathf.Clamp(mainCamera.orthographicSize += zoomSpeed * -zoomInput, zoomLimits.x, zoomLimits.y);
     }
 
     public void SetCameraLimits(Vector3 lowLimit, Vector3 highLimit)
