@@ -11,9 +11,9 @@ public class Turret : PlaceableObject
     public float range = 1.0f;
     public float fireRate = 1.0f;
 
-    public Transform target = null;
-    private List<Enemy> targets = new List<Enemy>();
-    private bool canShoot = true;
+    private Transform target = null;
+    private EnemySpawner enemySpawner = null;
+    private bool canShoot = false;
     private float currentTimer = 0.0f;
 
     private void OnDrawGizmos()
@@ -53,12 +53,12 @@ public class Turret : PlaceableObject
     public override void Place()
     {
         canShoot = true;
+        enemySpawner = FindObjectOfType<EnemySpawner>();
     }
 
     private void GetTargets()
     {
-        targets.Clear();
-        targets = FindObjectsOfType<Enemy>().Where(enemy => Vector3.Distance(transform.position, enemy.transform.position) <= range).ToList();
+        List<Enemy> targets = enemySpawner.Enemies.Where(enemy => Vector3.Distance(transform.position, enemy.transform.position) <= range).ToList();
         targets.OrderBy(enemy => Vector3.Distance(transform.position, enemy.transform.position));
 
         if (target == null && targets.Count > 0)

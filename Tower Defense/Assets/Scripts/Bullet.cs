@@ -7,12 +7,10 @@ public class Bullet : MonoBehaviour
 
     private new Rigidbody rigidbody;
 
-    public void Fire(Vector3 direction)
+    private void Update()
     {
-        rigidbody = GetComponent<Rigidbody>();
-        float rotationY = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(90.0f, rotationY, 0.0f);
-        rigidbody.velocity = speed * direction;
+        if (transform.position.y <= -3.0f)
+            Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -23,5 +21,16 @@ public class Bullet : MonoBehaviour
         {
             healthComponent.Damage(damage);
         }
+
+        Destroy(gameObject);
+    }
+
+    public void Fire(Vector3 direction)
+    {
+        rigidbody = GetComponent<Rigidbody>();
+        float rotationY = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(90.0f, rotationY, 0.0f);
+        rigidbody.velocity = speed * direction;
+
     }
 }

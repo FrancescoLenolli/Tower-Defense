@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,9 @@ public class Enemy : MonoBehaviour
 
     private PathFollower pathFollower;
     private HealthComponent healthComponent;
+    private Action<Enemy> onDeath;
+
+    public Action<Enemy> OnDeath { get => onDeath; set => onDeath = value; }
 
     public void Init(List<Node> path)
     {
@@ -30,8 +34,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        onDeath?.Invoke(this);
         Destroy(gameObject);
     }
-
-
 }

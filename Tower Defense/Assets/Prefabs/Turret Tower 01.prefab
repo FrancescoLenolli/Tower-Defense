@@ -130,7 +130,7 @@ MonoBehaviour:
   prefabBullet: {fileID: 6002550705235963828, guid: d7dd21b9bbf88a34f803f31661b0031c,
     type: 3}
   range: 5
-  fireRate: 1
+  fireRate: 0.5
 --- !u!1 &1414511323558576
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +10,8 @@ public class EnemySpawner : MonoBehaviour
     private List<Node> path = new List<Node>();
     private List<Enemy> enemies = new List<Enemy>();
     private float currentTimer;
+
+    public List<Enemy> Enemies { get => enemies; }
 
     private void Awake()
     {
@@ -26,9 +27,15 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy()
     {
         Enemy enemy = Instantiate(prefabEnemy);
+        enemy.OnDeath += RemoveEnemy;
         enemy.Init(path);
 
         enemies.Add(enemy);
+    }
+
+    private void RemoveEnemy(Enemy enemy)
+    {
+        enemies.Remove(enemy);
     }
 
     private IEnumerator SpawnEnemiesRoutine()
