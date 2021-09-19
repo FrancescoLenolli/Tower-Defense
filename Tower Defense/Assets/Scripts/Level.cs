@@ -15,7 +15,6 @@ public class Level : MonoBehaviour
     private MarkerGenerator markerGenerator = null;
     private Pathfinding pathfinding = null;
     private List<Node> path = new List<Node>();
-    private bool autogeneratePath = false;
     private PlaceableObject obstacle = null;
     private Node startNode = null;
     private Node endNode = null;
@@ -33,7 +32,6 @@ public class Level : MonoBehaviour
         pathfinding = new Pathfinding(grid);
 
         GenerateRandomPath();
-        StartCoroutine(AutoGeneratePath());
 
         EnemySpawner enemySpawner = FindObjectOfType<EnemySpawner>();
         enemySpawner.SetPath(path);
@@ -48,14 +46,6 @@ public class Level : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            autogeneratePath = !autogeneratePath;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            GenerateRandomPath();
-        }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             markersVisible = !markersVisible;
@@ -64,6 +54,12 @@ public class Level : MonoBehaviour
             {
                 node.SetMarkerVisible(markersVisible);
             }
+        }
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            EnemySpawner enemySpawner = FindObjectOfType<EnemySpawner>();
+            enemySpawner.SetPath(path);
+            enemySpawner.StartWave(); // TODO: Replace with event when developing UI
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -158,20 +154,6 @@ public class Level : MonoBehaviour
         for (int i = 1; i < path.Count - 1; ++i)
         {
             markerGenerator.ChangeMarker(path[i], markerType);
-        }
-    }
-
-    private IEnumerator AutoGeneratePath()
-    {
-        while (true)
-        {
-            if (autogeneratePath)
-            {
-                GenerateRandomPath();
-                yield return new WaitForSeconds(0.01f);
-            }
-
-            yield return null;
         }
     }
 }

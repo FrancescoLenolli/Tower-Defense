@@ -245,6 +245,7 @@ MonoBehaviour:
   prefabEnemy: {fileID: 6718112694201563167, guid: d49d11bb627c01441ba91f6decffb9e7,
     type: 3}
   spawnTimer: 2
+  enemyCount: 5
 --- !u!4 &488073523
 Transform:
   m_ObjectHideFlags: 0
