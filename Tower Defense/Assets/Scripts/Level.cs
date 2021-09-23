@@ -7,15 +7,13 @@ public class Level : MonoBehaviour
     [SerializeField]
     private MyGrid grid = null;
     [SerializeField]
-    private PlaceableObject obstaclePrefab = null;
-    [SerializeField]
-    private PlaceableObject turretPrefab = null;
+    private List<PlaceableObject> placeableObjects = new List<PlaceableObject>();
 
     private MouseInput mouseInput = null;
     private MarkerGenerator markerGenerator = null;
     private Pathfinding pathfinding = null;
     private List<Node> path = new List<Node>();
-    private PlaceableObject obstacle = null;
+    private PlaceableObject placeableObject = null;
     private Node startNode = null;
     private Node endNode = null;
     private bool markersVisible = true;
@@ -61,24 +59,30 @@ public class Level : MonoBehaviour
             enemySpawner.SetPath(path);
             enemySpawner.StartWave(); // TODO: Replace with event when developing UI
         }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            GetObstacle(obstaclePrefab);
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            GetObstacle(turretPrefab);
-        }
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    GetObstacle(0);
+        //}
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    GetObstacle(1);
+        //}
         if (Input.GetMouseButtonDown(0))
         {
-            PlaceObstacle();
+            PlaceObject();
         }
 
-        if (obstacle)
+        if (placeableObject)
         {
-            obstacle.transform.localPosition = grid.NodeFromWorldPoint(mouseInput.WorldPoint).worldPosition;
-            obstacle.transform.localPosition = new Vector3(obstacle.transform.localPosition.x, 0.0f, obstacle.transform.localPosition.z);
+            placeableObject.transform.localPosition = grid.NodeFromWorldPoint(mouseInput.WorldPoint).worldPosition;
+            placeableObject.transform.localPosition = new Vector3(placeableObject.transform.localPosition.x, 0.0f, placeableObject.transform.localPosition.z);
         }
+    }
+
+    public void GetObstacle(int index)
+    {
+        if (!placeableObject)
+            placeableObject = Instantiate(placeableObjects[index], mouseInput.WorldPoint, Quaternion.identity, grid.transform);
     }
 
     private void GenerateRandomPath()
@@ -115,34 +119,39 @@ public class Level : MonoBehaviour
         markerGenerator.ChangeMarker(endNode, MarkerType.End);
     }
 
-    private void GetObstacle(PlaceableObject prefab)
+    private void PlaceObject()
     {
-        if (!obstacle)
-            obstacle = Instantiate(prefab, mouseInput.WorldPoint, Quaternion.identity, grid.transform);
-    }
-
-    private void PlaceObstacle()
-    {
-        if (!obstacle)
+        if (!placeableObject)
             return;
 
-        Node node = grid.NodeFromWorldPoint(obstacle.transform.localPosition);
+        Node node = grid.NodeFromWorldPoint(placeableObject.transform.localPosition);
 
-        if (node == null || !node.isWalkable || node == startNode || node == endNode)
+        bool isObjectAnObstacle = placeableObject.GetType() == typeof(Obstacle);
+        bool isNodeValid;
+
+        if(isObjectAnObstacle)
+            isNodeValid = node != null && node.nodeState == Node.NodeState.Walkable && node != startNode && node != endNode;
+        else
+            isNodeValid = node != null && node.nodeState == Node.NodeState.ObstacleFree && node != startNode && node != endNode;
+
+        if (!isNodeValid)
             return;
 
-        node.isWalkable = false;
+
+        node.nodeState = Node.NodeState.ObstacleFree;
 
         List<Node> newPath = pathfinding.GetPath(startNode, endNode);
 
         if (newPath == null)
         {
-            node.isWalkable = true;
+            node.nodeState = Node.NodeState.Walkable;
             return;
         }
+        
+        node.nodeState = isObjectAnObstacle ? Node.NodeState.ObstacleFree : Node.NodeState.ObstacleOccupied;
 
-        obstacle.Place();
-        obstacle = null;
+        placeableObject.Place();
+        placeableObject = null;
         markerGenerator.ChangeMarker(node, MarkerType.Obstacle);
 
         if (path.Contains(node))

@@ -52,6 +52,7 @@ public class Turret : PlaceableObject
 
     public override void Place()
     {
+        transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
         canShoot = true;
         enemySpawner = FindObjectOfType<EnemySpawner>();
     }

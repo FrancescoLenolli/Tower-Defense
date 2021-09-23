@@ -44,7 +44,7 @@ public class Pathfinding
 
             foreach (Node neighbour in grid.GetNeighbours(currentNode, false))
             {
-                if (!neighbour.isWalkable || closedSet.Contains(neighbour))
+                if (!(neighbour.nodeState == Node.NodeState.Walkable) || closedSet.Contains(neighbour))
                 {
                     continue;
                 }

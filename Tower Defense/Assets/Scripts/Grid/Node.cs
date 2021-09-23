@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Node : IHeapItem<Node>
 {
-    public bool isWalkable;
+    public enum NodeState { Walkable, ObstacleFree, ObstacleOccupied }
+    public NodeState nodeState;
     public Vector3 worldPosition;
     public Node parent;
     public int gridX;
@@ -16,9 +17,9 @@ public class Node : IHeapItem<Node>
     private int heapIndex;
     private SpriteRenderer marker;
 
-    public Node(bool isWalkable, Vector3 worldPosition, int gridX, int gridY)
+    public Node(NodeState nodeState, Vector3 worldPosition, int gridX, int gridY)
     {
-        this.isWalkable = isWalkable;
+        this.nodeState = nodeState;
         this.worldPosition = worldPosition;
         this.gridX = gridX;
         this.gridY = gridY;

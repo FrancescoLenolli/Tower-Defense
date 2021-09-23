@@ -8,11 +8,11 @@
       "hash": "c5bd85b033ee9994cf7b4d711479e2602d42c639"
     },
     "com.lenollif.uiframework": {
-      "version": "https://github.com/FrancescoLenolli/UI-Framework.git",
+      "version": "https://github.com/FrancescoLenolli/UI-Framework.git#dev",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "405591e23567e6b6758aa558fab795e61b33c10a"
+      "hash": "b8822c9e2e2b1b4d8ccffc80e3dbd09a9f7485bf"
     },
     "com.unity.collab-proxy": {
       "version": "1.2.16",

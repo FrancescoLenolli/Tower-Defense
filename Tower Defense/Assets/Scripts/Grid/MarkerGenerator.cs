@@ -21,7 +21,7 @@ public class MarkerGenerator : MonoBehaviour
 
         foreach (Node node in grid)
         {
-            color = !node.isWalkable ? unwalkableColor : node == startNode ? startColor : node == endNode ? endColor : path.Contains(node) ? pathColor : standardColor;
+            color = !(node.nodeState == Node.NodeState.Walkable) ? unwalkableColor : node == startNode ? startColor : node == endNode ? endColor : path.Contains(node) ? pathColor : standardColor;
             spriteRenderer = Instantiate(prefabMarker, new Vector3(node.worldPosition.x, 0.01f, node.worldPosition.z), prefabMarker.transform.rotation, transform);
             spriteRenderer.color = color;
 

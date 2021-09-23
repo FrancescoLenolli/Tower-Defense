@@ -89,7 +89,7 @@ public class MyGrid : MonoBehaviour
             {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius);
                 bool isWalkable = !(Physics.CheckBox(worldPoint, new Vector3(boxSide, 1, boxSide), Quaternion.identity, unwalkableMask));
-                grid[x, y] = new Node(isWalkable, worldPoint, x, y);
+                grid[x, y] = new Node(isWalkable? Node.NodeState.Walkable : Node.NodeState.ObstacleFree, worldPoint, x, y);
             }
         }
     }
