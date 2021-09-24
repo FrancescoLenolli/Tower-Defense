@@ -1696,8 +1696,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1847695779}
   - component: {fileID: 1847695778}
-  - component: {fileID: 1847695780}
   - component: {fileID: 1847695781}
+  - component: {fileID: 1847695780}
+  - component: {fileID: 1847695782}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -1718,9 +1719,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 524933195}
-  placeableObjects:
-  - {fileID: 4208024303435858905, guid: 7038a234d8aef8a42991082ab1c9f272, type: 3}
-  - {fileID: 6135559528439051530, guid: a425124410f363a43adb6788601cc3e0, type: 3}
 --- !u!4 &1847695779
 Transform:
   m_ObjectHideFlags: 0
@@ -1744,12 +1742,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1847695777}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eba67e88fa734304cb122142770b1bc9, type: 3}
+  m_Script: {fileID: 11500000, guid: d59187adb0a890c4899737f9ba8353eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectableMask:
-    serializedVersion: 2
-    m_Bits: 1
+  placeableObjects:
+  - {fileID: 4208024303435858905, guid: 7038a234d8aef8a42991082ab1c9f272, type: 3}
+  - {fileID: 6135559528439051530, guid: a425124410f363a43adb6788601cc3e0, type: 3}
 --- !u!114 &1847695781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1769,6 +1767,21 @@ MonoBehaviour:
   pathColor: {r: 0.13679248, g: 1, b: 0.14286166, a: 1}
   startColor: {r: 0, g: 0, b: 0, a: 1}
   endColor: {r: 0, g: 0.08320022, b: 1, a: 1}
+--- !u!114 &1847695782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1847695777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eba67e88fa734304cb122142770b1bc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectableMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1 &1850940187
 GameObject:
   m_ObjectHideFlags: 0

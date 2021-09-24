@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,30 +5,30 @@ public class Level : MonoBehaviour
 {
     [SerializeField]
     private MyGrid grid = null;
-    [SerializeField]
-    private List<PlaceableObject> placeableObjects = new List<PlaceableObject>();
 
-    private MouseInput mouseInput = null;
     private MarkerGenerator markerGenerator = null;
+    private ObstaclesController obstaclesController = null;
     private Pathfinding pathfinding = null;
     private List<Node> path = new List<Node>();
-    private PlaceableObject placeableObject = null;
     private Node startNode = null;
     private Node endNode = null;
     private bool markersVisible = true;
 
+    public ObstaclesController ObstaclesController { get => obstaclesController; }
+
     private void Awake()
     {
-        mouseInput = GetComponent<MouseInput>();
         markerGenerator = GetComponent<MarkerGenerator>();
+        obstaclesController = GetComponent<ObstaclesController>();
     }
 
     private void Start()
     {
         grid.Init();
         pathfinding = new Pathfinding(grid);
-
         GenerateRandomPath();
+
+        obstaclesController.InitData(grid);
 
         EnemySpawner enemySpawner = FindObjectOfType<EnemySpawner>();
         enemySpawner.SetPath(path);
@@ -53,36 +52,16 @@ public class Level : MonoBehaviour
                 node.SetMarkerVisible(markersVisible);
             }
         }
-        if(Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             EnemySpawner enemySpawner = FindObjectOfType<EnemySpawner>();
             enemySpawner.SetPath(path);
             enemySpawner.StartWave(); // TODO: Replace with event when developing UI
         }
-        //if (Input.GetKeyDown(KeyCode.Q))
-        //{
-        //    GetObstacle(0);
-        //}
-        //if (Input.GetKeyDown(KeyCode.E))
-        //{
-        //    GetObstacle(1);
-        //}
         if (Input.GetMouseButtonDown(0))
         {
             PlaceObject();
         }
-
-        if (placeableObject)
-        {
-            placeableObject.transform.localPosition = grid.NodeFromWorldPoint(mouseInput.WorldPoint).worldPosition;
-            placeableObject.transform.localPosition = new Vector3(placeableObject.transform.localPosition.x, 0.0f, placeableObject.transform.localPosition.z);
-        }
-    }
-
-    public void GetObstacle(int index)
-    {
-        if (!placeableObject)
-            placeableObject = Instantiate(placeableObjects[index], mouseInput.WorldPoint, Quaternion.identity, grid.transform);
     }
 
     private void GenerateRandomPath()
@@ -121,6 +100,8 @@ public class Level : MonoBehaviour
 
     private void PlaceObject()
     {
+        PlaceableObject placeableObject = obstaclesController.GetPlaceableObject();
+
         if (!placeableObject)
             return;
 
@@ -129,7 +110,7 @@ public class Level : MonoBehaviour
         bool isObjectAnObstacle = placeableObject.GetType() == typeof(Obstacle);
         bool isNodeValid;
 
-        if(isObjectAnObstacle)
+        if (isObjectAnObstacle)
             isNodeValid = node != null && node.nodeState == Node.NodeState.Walkable && node != startNode && node != endNode;
         else
             isNodeValid = node != null && node.nodeState == Node.NodeState.ObstacleFree && node != startNode && node != endNode;
@@ -147,11 +128,11 @@ public class Level : MonoBehaviour
             node.nodeState = Node.NodeState.Walkable;
             return;
         }
-        
+
         node.nodeState = isObjectAnObstacle ? Node.NodeState.ObstacleFree : Node.NodeState.ObstacleOccupied;
 
         placeableObject.Place();
-        placeableObject = null;
+        obstaclesController.ResetPlaceableObject();
         markerGenerator.ChangeMarker(node, MarkerType.Obstacle);
 
         if (path.Contains(node))

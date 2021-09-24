@@ -30,6 +30,6 @@ public class UIState_HUD_Main : UIState_HUD
 
     private void SpawnObstacle(int index)
     {
-        level.GetObstacle(index);
+        level.ObstaclesController.GetObstacle(index);
     }
 }
