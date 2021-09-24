@@ -16,6 +16,7 @@ public class UIState_HUD_Main : UIState_HUD
         level = FindObjectOfType<Level>();
 
         view.OnSpawnObstacle += SpawnObstacle;
+        view.InitButtons(level.ObstaclesController.PlaceableObjects);
     }
 
     public override void ShowState()
@@ -30,6 +31,8 @@ public class UIState_HUD_Main : UIState_HUD
 
     private void SpawnObstacle(int index)
     {
+        Debug.Log(index);
+
         level.ObstaclesController.GetObstacle(index);
     }
 }

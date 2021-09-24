@@ -107,7 +107,7 @@ public class Level : MonoBehaviour
 
         Node node = grid.NodeFromWorldPoint(placeableObject.transform.localPosition);
 
-        bool isObjectAnObstacle = placeableObject.GetType() == typeof(Obstacle);
+        bool isObjectAnObstacle = placeableObject.GetType() == typeof(Wall);
         bool isNodeValid;
 
         if (isObjectAnObstacle)

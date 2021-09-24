@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Obstacle : PlaceableObject
+public class Wall : PlaceableObject
 {
     public override void Place()
     {

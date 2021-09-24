@@ -1,19 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ObstaclesController : MonoBehaviour
 {
     [SerializeField]
-    private List<PlaceableObject> placeableObjects = new List<PlaceableObject>();
+    private List<PlaceableObjectInfo> placeableObjects = new List<PlaceableObjectInfo>();
 
     private PlaceableObject placeableObject = null;
     private MyGrid grid;
     private MouseInput mouseInput;
 
+    public List<PlaceableObjectInfo> PlaceableObjects { get => placeableObjects; }
+
     private void Awake()
     {
         mouseInput = GetComponent<MouseInput>();
+        placeableObjects = Resources.LoadAll<PlaceableObjectInfo>("").ToList();
     }
 
     private void Update()
@@ -43,6 +47,6 @@ public class ObstaclesController : MonoBehaviour
     public void GetObstacle(int index)
     {
         if (!placeableObject)
-            placeableObject = Instantiate(placeableObjects[index], mouseInput.WorldPoint, Quaternion.identity, grid.transform);
+            placeableObject = Instantiate(placeableObjects[index].placeableObject, mouseInput.WorldPoint, Quaternion.identity, grid.transform);
     }
 }
