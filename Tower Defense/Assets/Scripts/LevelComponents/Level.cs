@@ -58,9 +58,41 @@ public class Level : MonoBehaviour
             enemySpawner.SetPath(path);
             enemySpawner.StartWave(); // TODO: Replace with event when developing UI
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             PlaceObject();
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            PlaceableObject placeableObject = obstaclesController.RepositionObject();
+            if (!placeableObject)
+                return;
+
+            Node node = grid.NodeFromWorldPoint(placeableObject.transform.position);
+            bool isObjectWall = placeableObject.GetType() == typeof(Wall);
+
+            if (isObjectWall && node.nodeState == Node.NodeState.ObstacleFree)
+            {
+                node.nodeState = Node.NodeState.Walkable;
+
+                List<Node> newPath = pathfinding.GetPath(startNode, endNode);
+
+                if (newPath == null)
+                {
+                    node.nodeState = Node.NodeState.ObstacleFree;
+                    return;
+                }
+
+                SetPath(newPath);
+                obstaclesController.SetPlaceableObject(placeableObject);
+                return;
+            }
+            
+            if(!isObjectWall)
+            {
+                node.nodeState = Node.NodeState.ObstacleFree;
+                obstaclesController.SetPlaceableObject(placeableObject);
+            }
         }
     }
 
@@ -132,7 +164,7 @@ public class Level : MonoBehaviour
         node.nodeState = isObjectAnObstacle ? Node.NodeState.ObstacleFree : Node.NodeState.ObstacleOccupied;
 
         placeableObject.Place();
-        obstaclesController.ResetPlaceableObject();
+        obstaclesController.ReplaceCurrentObject();
         markerGenerator.ChangeMarker(node, MarkerType.Obstacle);
 
         if (path.Contains(node))

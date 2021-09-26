@@ -5,12 +5,18 @@ public enum MarkerType { Standard, Path, Obstacle, Start, End }
 
 public class MarkerGenerator : MonoBehaviour
 {
-    public SpriteRenderer prefabMarker;
-    public Sprite markerSprite;
-    public Color standardColor;
-    public Color pathColor;
-    public Color startColor;
-    public Color endColor;
+    [SerializeField]
+    private Transform markersContainer = null;
+    [SerializeField]
+    private SpriteRenderer prefabMarker = null;
+    [SerializeField]
+    private Color standardColor = Color.white;
+    [SerializeField]
+    private Color pathColor = Color.white;
+    [SerializeField]
+    private Color startColor = Color.white;
+    [SerializeField]
+    private Color endColor = Color.white;
 
     private Color unwalkableColor = Color.clear;
 
@@ -22,7 +28,7 @@ public class MarkerGenerator : MonoBehaviour
         foreach (Node node in grid)
         {
             color = !(node.nodeState == Node.NodeState.Walkable) ? unwalkableColor : node == startNode ? startColor : node == endNode ? endColor : path.Contains(node) ? pathColor : standardColor;
-            spriteRenderer = Instantiate(prefabMarker, new Vector3(node.worldPosition.x, 0.01f, node.worldPosition.z), prefabMarker.transform.rotation, transform);
+            spriteRenderer = Instantiate(prefabMarker, new Vector3(node.worldPosition.x, 0.01f, node.worldPosition.z), prefabMarker.transform.rotation, markersContainer);
             spriteRenderer.color = color;
 
             node.SetMarker(spriteRenderer);
